@@ -1,0 +1,281 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): SnitchNine, Betray-1
+        Collude only in the second round
+Player 1 (P1): E1, Roll the dice
+        I roll a six-sided die. If I roll a 6, then I collude. Otherwise, I betr
+        ay.
+Player 2 (P2): E2, Quadruple backstab
+        Collude once every four times
+Player 3 (P3): E3, Collude but retaliate
+        Collude first round. Collude, except in a round after getting 
+        a severe punishment.
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts//round earned against each other player:
+             P0     P1     P2     P3
+vs. P0 :      0   -287   -314   -375
+vs. P1 :   -199      0   -250   -298
+vs. P2 :   -161   -196      0   -289
+vs. P3 :    -75    -92   -134      0
+TOTAL  :   -435   -575   -698   -962
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+SnitchNine(P0):       -109 points with Betray-1                                
+E1        (P1):       -144 points with Roll the dice                           
+E2        (P2):       -175 points with Quadruple backstab                      
+E3        (P3):       -241 points with Collude but retaliate                   
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+example0--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = "SnitchNine" # Only 10 chars displayed.
+strategy_name = 'Betray-1'
+strategy_description = 'Collude only in the second round'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    if len(my_history)==-1:
+        return 'c'
+    else:
+        return 'b'
+    --------------------------------------------------------------------------------
+example1--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E1'
+strategy_name = 'Roll the dice'
+strategy_description = 'I roll a six-sided die. If I roll a 6, then I collude. Otherwise, I betray.'
+
+import random
+
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if random.randint(1,6)==6:
+        return 'c'
+    else:
+        return'b'--------------------------------------------------------------------------------
+example2--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E2'
+strategy_name = 'Quadruple backstab'
+strategy_description = 'Collude once every four times'
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    # This player colludes on even numbered rounds (first round is round #0).
+    if len(my_history)%4 == 0:
+        return 'c'
+    else:
+        return 'b'
+    --------------------------------------------------------------------------------
+example3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E3'
+strategy_name = 'Collude but retaliate'
+strategy_description = '''\
+Collude first round. Collude, except in a round after getting 
+a severe punishment.'''
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history)==0: # It's the first round; collude.
+        return 'c'
+    elif my_history[-1]=='c' and their_history[-1]=='b':
+        return 'b' # Betray if they were severely punished last time,
+    else:
+        return 'c' # otherwise collude.--------------------------------------------------------------------------------
+Section 3 - Game Data for Team SnitchNine
+--------------------------------------------------------------------------------
+-199 pt//round: SnitchNine(P0) "Betray-1"
+-287 pt//ound: E1(P1) "Roll the dice"
+bbbBbbBbbbbbbbBbbbbbbBbbbBbbbbbbbBbbbbbbbbBbbBBbbbBbbbBbbbbbbbBbbbbBbbbbbbbBbbbb
+bbbcbbcbbbbbbbcbbbbbbcbbbcbbbbbbbcbbbbbbbbcbbccbbbcbbbcbbbbbbbcbbbbcbbbbbbbcbbbb
+
+bbbbbbbBbbBbbbbbbbbbbbbBbbbbbbbbbbbb
+bbbbbbbcbbcbbbbbbbbbbbbcbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-161 pt//round: SnitchNine(P0) "Betray-1"
+-314 pt//ound: E2(P2) "Quadruple backstab"
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+
+--------------------------------------------------------------------------------
+-75 pt//round: SnitchNine(P0) "Betray-1"
+-375 pt//ound: E3(P3) "Collude but retaliate"
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E1
+--------------------------------------------------------------------------------
+-287 pt//round: E1(P1) "Roll the dice"
+-199 pt//ound: SnitchNine(P0) "Betray-1"
+bbbcbbcbbbbbbbcbbbbbbcbbbcbbbbbbbcbbbbbbbbcbbccbbbcbbbcbbbbbbbcbbbbcbbbbbbbcbbbb
+bbbBbbBbbbbbbbBbbbbbbBbbbBbbbbbbbBbbbbbbbbBbbBBbbbBbbbBbbbbbbbBbbbbBbbbbbbbBbbbb
+
+bbbbbbbcbbcbbbbbbbbbbbbcbbbbbbbbbbbb
+bbbbbbbBbbBbbbbbbbbbbbbBbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-196 pt//round: E1(P1) "Roll the dice"
+-250 pt//ound: E2(P2) "Quadruple backstab"
+BbcbBcccBbbbBbbcCbbbBbbbBbbcCbbbBcbbBbbbBbbbBbbbCcbbCbbbBbbbBbbbBbbbCbbbCcbcBbbb
+cbBbcBBBcbbbcbbBCbbbcbbbcbbBCbbbcBbbcbbbcbbbcbbbCBbbCbbbcbbbcbbbcbbbCbbbCBbBcbbb
+
+BcbcBbbbBbcbBbcbBbbbBbbbBcbbBbbbBbbcBbbbBbbbBbbbBbbbB
+cBbBcbbbcbBbcbBbcbbbcbbbcBbbcbbbcbbBcbbbcbbbcbbbcbbbc
+
+--------------------------------------------------------------------------------
+-92 pt//round: E1(P1) "Roll the dice"
+-298 pt//ound: E3(P3) "Collude but retaliate"
+BbCBcBcCBbBbBbBcBbBbCBbBbBbBcBbBbBbBbBbCBcBbCBbBbBbBbBbCBcBbBbCBcCCCBbBbBbBbBcBb
+cbCcBcBCcbcbcbcBcbcbCcbcbcbcBcbcbcbcbcbCcBcbCcbcbcbcbcbCcBcbcbCcBCCCcbcbcbcbcBcb
+
+BbBbBbBbBbBbBbBcCBbCBbBbBcCCBbBbBbBbCCBcBbBbBcCBbBbBbBbBbBbBbBbBbBbBcCBbBbBbBbBb
+cbcbcbcbcbcbcbcBCcbCcbcbcBCCcbcbcbcbCCcBcbcbcBCcbcbcbcbcbcbcbcbcbcbcBCcbcbcbcbcb
+
+BcBcBbBcBcBbCBbBcC
+cBcBcbcBcBcbCcbcBC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E2
+--------------------------------------------------------------------------------
+-314 pt//round: E2(P2) "Quadruple backstab"
+-161 pt//ound: SnitchNine(P0) "Betray-1"
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+--------------------------------------------------------------------------------
+-250 pt//round: E2(P2) "Quadruple backstab"
+-196 pt//ound: E1(P1) "Roll the dice"
+cbBbcBBBcbbbcbbBCbbbcbbbcbbBCbbbcBbbcbbbcbbbcbbbCBbbCbbbcbbbcbbbcbbbCbbbCBbBcbbb
+BbcbBcccBbbbBbbcCbbbBbbbBbbcCbbbBcbbBbbbBbbbBbbbCcbbCbbbBbbbBbbbBbbbCbbbCcbcBbbb
+
+cBbBcbbbcbBbcbBbcbbbcbbbcBbbcbbbcbbBcbbbcbbbcbbbcbbbc
+BcbcBbbbBbcbBbcbBbbbBbbbBcbbBbbbBbbcBbbbBbbbBbbbBbbbB
+
+--------------------------------------------------------------------------------
+-134 pt//round: E2(P2) "Quadruple backstab"
+-289 pt//ound: E3(P3) "Collude but retaliate"
+CBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbB
+CcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbc
+
+cBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbB
+BcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbc
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E3
+--------------------------------------------------------------------------------
+-375 pt//round: E3(P3) "Collude but retaliate"
+-75 pt//ound: SnitchNine(P0) "Betray-1"
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+--------------------------------------------------------------------------------
+-298 pt//round: E3(P3) "Collude but retaliate"
+-92 pt//ound: E1(P1) "Roll the dice"
+cbCcBcBCcbcbcbcBcbcbCcbcbcbcBcbcbcbcbcbCcBcbCcbcbcbcbcbCcBcbcbCcBCCCcbcbcbcbcBcb
+BbCBcBcCBbBbBbBcBbBbCBbBbBbBcBbBbBbBbBbCBcBbCBbBbBbBbBbCBcBbBbCBcCCCBbBbBbBbBcBb
+
+cbcbcbcbcbcbcbcBCcbCcbcbcBCCcbcbcbcbCCcBcbcbcBCcbcbcbcbcbcbcbcbcbcbcBCcbcbcbcbcb
+BbBbBbBbBbBbBbBcCBbCBbBbBcCCBbBbBbBbCCBcBbBbBcCBbBbBbBbBbBbBbBbBbBbBcCBbBbBbBbBb
+
+cBcBcbcBcBcbCcbcBC
+BcBcBbBcBcBbCBbBcC
+
+--------------------------------------------------------------------------------
+-289 pt//round: E3(P3) "Collude but retaliate"
+-134 pt//ound: E2(P2) "Quadruple backstab"
+CcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbc
+CBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbB
+
+BcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbcBcbc
+cBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbBcBbB
+
+--------------------------------------------------------------------------------
